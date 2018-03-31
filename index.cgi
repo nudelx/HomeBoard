@@ -1,5 +1,4 @@
 #!/usr/bin/node
-console.log("Content-type: text/plain\n");
 
 var createData = (arr) => {
   const data = {}
@@ -32,9 +31,9 @@ var fetchDHCPClientsList = function (creds, request, cheerio) {
 }
 
 parseQueryString = function (QUERY_STRING) {
-  var PARAMS = {}
+  var PARAMS = { action: 'html'}
   var PAIRS_ARR = QUERY_STRING ? QUERY_STRING.split('&') : null
-  if (!PAIRS_ARR) return
+  if (!PAIRS_ARR) return PARAMS
   PAIRS_ARR.map( function (item) {
     var [ key, value ] = item.split('=');
     PARAMS[key] = value
@@ -45,10 +44,18 @@ parseQueryString = function (QUERY_STRING) {
 
 function main () {
   var params = parseQueryString(process.env.QUERY_STRING);
+  // console.log(params)
   var request = require('request');
   var cheerio = require('cheerio');
   var creds = require('./cred.json')
-  fetchDHCPClientsList(creds, request, cheerio);
+  if (params.action === 'API') {
+    console.log("Content-type: application/json\n");
+    fetchDHCPClientsList(creds, request, cheerio);
+  } else {
+    console.log("Content-type: text/html\n");
+    console.log('<h1>Page</h1>')
+  }
+
 
 }
 
