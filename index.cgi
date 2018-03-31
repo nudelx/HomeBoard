@@ -27,24 +27,17 @@ function main () {
   var request = require('request');
   var cheerio = require('cheerio');
   var creds = require('./cred.json')
-  console.log(creds)
-  var url = 'http://192.168.0.1/';
-  var username = 'nudelx',
-      password = 'NudelxTpL2017',
-      url = 'http://' + username + ':' + password + '@192.168.0.1/userRpm/AssignedIpAddrListRpm.htm';
-request(url, function(error, response, html) {
+  // console.log(creds)
 
-       if ( error ) { console.log("ooppsss error "+ error + " " + response); }
-        var $ = cheerio.load(html);
-       var res = $('SCRIPT');
-       eval(res.html());
-       // console.log(DHCPDynList);
-       console.log(createData(DHCPDynList));
+  var url = 'http://' + creds.username + ':' + creds.password + '@192.168.0.1/userRpm/AssignedIpAddrListRpm.htm';
+  request(url, function(error, response, html) {
+    if ( error ) { console.log("ooppsss error "+ error + " " + response); }
+    var $ = cheerio.load(html);
+    var res = $('SCRIPT');
+    eval(res.html());
+    console.log(createData(DHCPDynList));
 
-   })
-
+  })
 }
-
-
 
 main();
