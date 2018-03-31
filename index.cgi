@@ -1,7 +1,5 @@
 #!/usr/bin/node
-
-var header = "Content-type: text/plain\n";
-console.log(header);
+console.log("Content-type: text/plain\n");
 
 var createData = (arr) => {
   const data = {}
@@ -23,7 +21,7 @@ var createData = (arr) => {
 }
 
 var fetchDHCPClientsList = function (creds, request, cheerio) {
-  var url = 'http://' + creds.username + ':' + creds.password + '@192.168.0.1/userRpm/AssignedIpAddrListRpm.htm';
+  var url = 'http://' + creds.username + ':' + creds.password + '@'+creds.host+'/userRpm/AssignedIpAddrListRpm.htm';
   request(url, function(error, response, html) {
     if ( error ) { console.log("ooppsss error "+ error + " " + response); }
     var $ = cheerio.load(html);
@@ -33,14 +31,24 @@ var fetchDHCPClientsList = function (creds, request, cheerio) {
   })
 }
 
-function main () {
+parseQueryString = function (QUERY_STRING) {
+  var PARAMS = {}
+  var PAIRS_ARR = QUERY_STRING ? QUERY_STRING.split('&') : null
+  if (!PAIRS_ARR) return
+  PAIRS_ARR.map( function (item) {
+    var [ key, value ] = item.split('=');
+    PARAMS[key] = value
+  })
+  return PARAMS;
 
+}
+
+function main () {
+  var params = parseQueryString(process.env.QUERY_STRING);
   var request = require('request');
   var cheerio = require('cheerio');
   var creds = require('./cred.json')
-
   fetchDHCPClientsList(creds, request, cheerio);
-
 
 }
 
