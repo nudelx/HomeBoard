@@ -22,13 +22,7 @@ var createData = (arr) => {
   return data
 }
 
-function main () {
-
-  var request = require('request');
-  var cheerio = require('cheerio');
-  var creds = require('./cred.json')
-  // console.log(creds)
-
+var fetchDHCPClientsList = function (creds, request, cheerio) {
   var url = 'http://' + creds.username + ':' + creds.password + '@192.168.0.1/userRpm/AssignedIpAddrListRpm.htm';
   request(url, function(error, response, html) {
     if ( error ) { console.log("ooppsss error "+ error + " " + response); }
@@ -36,8 +30,18 @@ function main () {
     var res = $('SCRIPT');
     eval(res.html());
     console.log(createData(DHCPDynList));
-
   })
+}
+
+function main () {
+
+  var request = require('request');
+  var cheerio = require('cheerio');
+  var creds = require('./cred.json')
+
+  fetchDHCPClientsList(creds, request, cheerio);
+
+
 }
 
 main();
