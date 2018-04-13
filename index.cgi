@@ -1,5 +1,6 @@
 #!/usr/bin/node
 const API = require('./server/api')
+const CLIENT = require('./clinet/index')
 parseQueryString = function (QUERY_STRING) {
   var PARAMS = { action: 'html'}
   var PAIRS_ARR = QUERY_STRING ? QUERY_STRING.split('&') : null
@@ -14,13 +15,7 @@ parseQueryString = function (QUERY_STRING) {
 
 function main () {
   var params = parseQueryString(process.env.QUERY_STRING);
-  if (params.action === 'API') {
-    API.run(params)
-  } else {
-    console.log("Content-type: text/html\n");
-    console.log('<h1>Page</h1>')
-    console.log('<pre>'+JSON.stringify(API)+'</pre>')
-  }
+  params.action === 'API' ? API.run(params) : CLIENT.run()
 
 }
 
