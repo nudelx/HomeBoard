@@ -1,6 +1,6 @@
 #!/usr/bin/node
 const API = require('./server/api')
-const CLIENT = require('./clinet/index')
+const CLIENT = require('./client/index')
 parseQueryString = function (QUERY_STRING) {
   var PARAMS = { action: 'html'}
   var PAIRS_ARR = QUERY_STRING ? QUERY_STRING.split('&') : null
