@@ -15,7 +15,7 @@ var API = {
         TIME: arr[i + 3]
       }
     }
-    return data
+    return JSON.stringify(data)
   },
 
   fetchDHCPClientsList: function (creds, request, cheerio) {
