@@ -56,7 +56,6 @@ var API = {
       }
       var $ = cheerio.load(html)
       var res = $("SCRIPT")
-      console.log(res)
       eval(res.html())
       console.log(self.createDataDhcp(DHCPDynList))
     })
